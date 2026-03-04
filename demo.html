@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>区域拖拽演示</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .device-info {
+      background: #fff3cd;
+      padding: 15px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      border-left: 4px solid #ffc107;
+      color: #856404;
+    }
+
+    .demo-section {
+      background: white;
+      border-radius: 15px;
+      padding: 30px;
+      margin-bottom: 30px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    }
+
+    .section-title {
+      font-size: 1.5rem;
+      color: #333;
+      margin-bottom: 20px;
+      padding-bottom: 10px;
+      border-bottom: 2px solid #667eea;
+    }
+
+    /* 拖拽容器样式 */
+    .drag-container {
+      width: 100%;
+      height: 400px;
+      padding: 20px;
+      background: #f8f9fa;
+      border: 3px dashed #667eea;
+      border-radius: 10px;
+      position: relative; /* 关键：为子元素提供绝对定位的参照系 (containing block) */
+      overflow: hidden;
+    }
+
+    .container-label {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      background: rgba(102, 126, 234, 0.1);
+      padding: 8px 15px;
+      border-radius: 5px;
+      color: #667eea;
+      font-weight: bold;
+      pointer-events: none;
+    }
+
+    /* 浮动窗口样式 */
+    .float-btn {
+      position: fixed;
+      width: 70px;
+      height: 70px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      user-select: none;
+      z-index: 1000;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+      font-weight: bold;
+      color: white;
+      font-size: 14px;
+      text-align: center;
+    }
+
+    .float-btn:hover {
+      transform: scale(1.1);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .float-btn:active {
+      transform: scale(0.95);
+    }
+    
+    .float-btn.dragging {
+      transition: none !important;
+    }
+
+    /* 主题颜色 */
+    .theme-blue {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    }
+
+    .theme-green {
+      background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+    }
+
+    .theme-orange {
+      background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
+    }
+
+    .info-box {
+      background: #e3f2fd;
+      padding: 15px;
+      border-radius: 8px;
+      margin-top: 15px;
+      border-left: 4px solid #2196f3;
+    }
+
+    .info-box p {
+      margin: 5px 0;
+      color: #1565c0;
+    }
+
+    .code-block {
+      background: #2d2d2d;
+      color: #f8f8f2;
+      padding: 15px;
+      border-radius: 8px;
+      margin-top: 10px;
+      overflow-x: auto;
+    }
+
+    .code-block code {
+      font-family: 'Courier New', monospace;
+      font-size: 14px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="device-info" id="deviceInfo">
+    检测中...
+  </div>
+
+  <div class="demo-section">
+    <h2 class="section-title">📦 区域内拖拽演示</h2>
+    <p style="margin-bottom: 15px; color: #666;">
+      以下两个浮动窗口被限制在各自的虚线容器内拖拽，无法移出容器边界：
+    </p>
+    
+    <!-- 左侧容器 -->
+    <div style="display: flex; flex-wrap: wrap;
+    justify-content: space-around;">
+      <div style="flex: 1;min-width: 250px;">
+        <h3 style="margin-bottom: 10px; color: #333;">容器 A（无 padding）</h3>
+        <div id="containerA" class="drag-container">
+          <div class="container-label">容器 A - 蓝色窗口活动区域</div>
+          <div id="windowA" class="float-btn theme-blue" style="top: 100px; left: 100px;">
+            窗口 A
+          </div>
+        </div>
+      </div>
+      <div style="min-width: 50px;"> 
+      </div>
+      <!-- 右侧容器 -->
+      <div style="flex: 1; min-width: 250px;">
+        <h3 style="margin-bottom: 10px; color: #333;">容器 B（padding: 20px）</h3>
+        <div id="containerB" class="drag-container">
+          <div class="container-label">容器 B - 绿色窗口活动区域</div>
+          <div id="windowB" class="float-btn theme-green" data-url="#" style="top: 120px; left: 120px;">
+            窗口 B
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="info-box">
+      <p><strong>💡 使用说明：</strong></p>
+      <p>• data-url 目标元素属性用于指定点击窗口时跳转的链接，非必填</p>
+      <p>• 窗口 A 只能在容器 A 内拖拽移动（紧贴边界）</p>
+      <p>• 窗口 B 只能在容器 B 内拖拽移动（距离边界 20px）</p>
+      <p>• 尝试将它们拖出容器边界，会被自动限制住！</p>
+    </div>
+  </div>
+
+  <div class="demo-section">
+    <h2 class="section-title">🌍 全局拖拽演示（对比）</h2>
+    <p style="margin-bottom: 15px; color: #666;">
+      这个橙色窗口可以在整个页面可视区域内自由拖拽：
+    </p>
+    
+    <div id="windowGlobal" class="float-btn theme-orange" data-url="#" style="top: 100px; right: 100px;">
+      全局窗口
+    </div>
+
+    <div class="info-box">
+      <p><strong>💡 对比说明：</strong></p>
+      <p>• 不指定 container 参数时，默认为 document.body</p>
+      <p>• 窗口可以在整个视口范围内拖拽移动</p>
+      <p>• 边界是屏幕的可视区域</p>
+    </div>
+  </div>
+
+  <div class="demo-section">
+    <h2 class="section-title">📝 代码示例</h2>
+    <div class="info-box">
+      <p><strong>如何在代码中指定拖拽容器和 padding：</strong></p>
+    </div>
+    <div class="code-block">
+      <code>
+// 获取容器和窗口元素<br>
+const container = document.getElementById('myContainer');<br>
+const windowElement = document.getElementById('myWindow');<br>
+<br>
+// 创建拖拽实例，指定 container 选项和 padding<br>
+new DraggableWindow(windowElement, { <br>
+&nbsp;&nbsp;container: container,<br>
+&nbsp;&nbsp;padding: 20 // 距离边界 20px<br>
+});<br>
+<br>
+// 或者使用默认的全局拖拽（不指定 container）<br>
+new DraggableWindow(windowElement);
+      </code>
+    </div>
+  </div>
+
+  <!-- 引入插件 -->
+  <script src="DraggableWindow.js"></script>
+
+  <script>
+    // 设备检测
+    function detectDevice() {
+      const isTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+      const deviceInfo = document.getElementById('deviceInfo');
+
+      if (isTouch) {
+        deviceInfo.innerHTML = '📱 当前设备：触摸设备 (移动端) - 支持触摸拖拽';
+        deviceInfo.style.backgroundColor = '#d1ecf1';
+        deviceInfo.style.borderLeftColor = '#0dcaf0';
+      } else {
+        deviceInfo.innerHTML = '💻 当前设备：鼠标设备 (PC 端) - 支持鼠标拖拽';
+        deviceInfo.style.backgroundColor = '#d4edda';
+        deviceInfo.style.borderLeftColor = '#28a745';
+      }
+    }
+
+    // 初始化
+    document.addEventListener('DOMContentLoaded', function () {
+      detectDevice();
+
+      // 获取容器和窗口
+      const containerA = document.getElementById('containerA');
+      const containerB = document.getElementById('containerB');
+      const windowA = document.getElementById('windowA');
+      const windowB = document.getElementById('windowB');
+      const windowGlobal = document.getElementById('windowGlobal');
+
+      // 创建带容器的拖拽窗口（无 padding）
+      new DraggableWindow(windowA, { container: containerA });
+      
+      // 创建带容器的拖拽窗口（padding: 20px）
+      new DraggableWindow(windowB, { container: containerB, padding: 20 });
+
+      // 创建全局拖拽窗口（不指定容器）
+      new DraggableWindow(windowGlobal);
+
+      // 添加状态提示
+      let lastAction = '';
+      
+      [windowA, windowB, windowGlobal].forEach(win => {
+        win.addEventListener('mousedown', () => {
+          lastAction = '开始拖动 ' + win.textContent;
+          console.log(lastAction);
+        });
+        
+        win.addEventListener('touchstart', () => {
+          lastAction = '开始触摸 ' + win.textContent;
+          console.log(lastAction);
+        });
+      });
+
+      console.log('区域拖拽演示已初始化');
+    });
+  </script>
+</body>
+
+</html>
