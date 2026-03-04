@@ -1,0 +1,62 @@
+{
+  "name": "@aggbond/draggable-window",
+  "version": "1.0.0",
+  "description": "一个轻量级的 JavaScript 可拖拽浮动窗口插件，支持移动端触摸和 PC 端鼠标操作，具有容器内拖拽和边界约束功能",
+  "publishConfig": {
+    "provenance": false,
+    "access": "public"
+  },
+  "main": "dist/DraggableWindow.common.js",
+  "module": "dist/DraggableWindow.esm.js",
+  "unpkg": "dist/DraggableWindow.min.js",
+  "jsdelivr": "dist/DraggableWindow.min.js",
+  "browser": "dist/DraggableWindow.min.js",
+  "types": "dist/DraggableWindow.d.ts",
+  "files": [
+    "dist/",
+    "src/",
+    "README.md",
+    "demo/"
+  ],
+  "scripts": {
+    "build": "rollup -c",
+    "build:watch": "rollup -c --watch",
+    "prepublishOnly": "npm run build",
+    "test": "echo \"No tests specified\" && exit 0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/aGG-Bond/draggableWindow.git"
+  },
+  "keywords": [
+    "draggable",
+    "window",
+    "float",
+    "drag",
+    "touch",
+    "mobile",
+    "vanilla-js",
+    "ui",
+    "dom",
+    "javascript",
+    "悬浮窗口",
+    "拖拽",
+    "前端组件"
+  ],
+  "author": "aGG-Bond",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/aGG-Bond/draggableWindow/issues"
+  },
+  "homepage": "https://github.com/aGG-Bond/draggableWindow#readme",
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "devDependencies": {
+    "@rollup/plugin-commonjs": "^25.0.0",
+    "@rollup/plugin-node-resolve": "^15.0.0",
+    "@rollup/plugin-replace": "^5.0.0",
+    "@rollup/plugin-terser": "^0.4.0",
+    "rollup": "^3.29.0"
+  }
+}

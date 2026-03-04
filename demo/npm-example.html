@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DraggableWindow - NPM 使用示例</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      background: #f5f5f5;
+    }
+    
+    .demo-box {
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    
+    .float-window {
+      position: fixed;
+      width: 80px;
+      height: 80px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      user-select: none;
+      z-index: 1000;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+      font-weight: bold;
+      text-align: center;
+      font-size: 14px;
+    }
+    
+    .container {
+      width: 100%;
+      height: 400px;
+      border: 3px dashed #667eea;
+      border-radius: 10px;
+      position: relative;
+      background: #f8f9fa;
+      overflow: hidden;
+    }
+    
+    .container-label {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      color: #667eea;
+      font-weight: bold;
+    }
+    
+    code {
+      background: #2d2d2d;
+      color: #f8f8f2;
+      padding: 15px;
+      border-radius: 5px;
+      display: block;
+      margin: 10px 0;
+      overflow-x: auto;
+    }
+  </style>
+</head>
+<body>
+  <div class="demo-box">
+    <h2>📦 NPM 包使用示例</h2>
+    <p>本示例演示如何使用通过 npm 安装的 draggable-window 包</p>
+    
+    <h3>方式一：在 Node.js / 构建工具中使用</h3>
+    <code>
+// ES Modules<br>
+import DraggableWindow from 'draggable-window';<br><br>
+// CommonJS<br>
+const DraggableWindow = require('draggable-window');<br><br>
+// 初始化<br>
+const element = document.getElementById('myWindow');<br>
+new DraggableWindow(element);
+    </code>
+    
+    <h3>方式二：直接在 HTML 中使用（CDN）</h3>
+    <code>
+&lt;script src="https://unpkg.com/draggable-window/src/DraggableWindow.js"&gt;&lt;/script&gt;<br>
+&lt;script&gt;<br>
+&nbsp;&nbsp;new DraggableWindow(document.getElementById('myWindow'));<br>
+&lt;/script&gt;
+    </code>
+  </div>
+  
+  <div class="demo-box">
+    <h2>🎯 基础拖拽演示</h2>
+    <div id="globalWindow" class="float-window" data-url="#">
+      全局窗口
+    </div>
+    <p style="margin-top: 100px;">↑ 这个窗口可以在整个页面自由拖拽</p>
+  </div>
+  
+  <div class="demo-box">
+    <h2>🔲 容器内拖拽演示</h2>
+    <div id="container" class="container">
+      <div class="container-label">活动区域（padding: 20px）</div>
+      <div id="containerWindow" class="float-window" style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); top: 100px; left: 100px;" data-url="#">
+        容器窗口
+      </div>
+    </div>
+    <p>↑ 这个窗口只能在虚线容器内拖拽，且距离边界 20px</p>
+  </div>
+
+  <!-- 引入插件 -->
+  <script src="../src/DraggableWindow.js"></script>
+  
+  <script>
+    // 初始化全局拖拽窗口
+    new DraggableWindow(document.getElementById('globalWindow'));
+    
+    // 初始化容器内拖拽窗口
+    const container = document.getElementById('container');
+    const containerWindow = document.getElementById('containerWindow');
+    new DraggableWindow(containerWindow, {
+      container: container,
+      padding: 20
+    });
+    
+    console.log('NPM 示例已加载');
+  </script>
+</body>
+</html>

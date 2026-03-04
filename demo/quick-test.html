@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DraggableWindow - 快速测试</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+    }
+    
+    .test-box {
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    
+    h1 {
+      color: #333;
+      text-align: center;
+    }
+    
+    .status {
+      background: #d4edda;
+      border-left: 4px solid #28a745;
+      padding: 15px;
+      margin: 20px 0;
+      border-radius: 5px;
+      color: #155724;
+    }
+    
+    .float-window {
+      position: fixed;
+      width: 80px;
+      height: 80px;
+      background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      user-select: none;
+      z-index: 1000;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+      font-weight: bold;
+      text-align: center;
+      font-size: 14px;
+      top: 100px;
+      right: 100px;
+    }
+    
+    code {
+      background: #2d2d2d;
+      color: #f8f8f2;
+      padding: 15px;
+      border-radius: 5px;
+      display: block;
+      margin: 15px 0;
+      overflow-x: auto;
+      font-family: 'Courier New', monospace;
+    }
+  </style>
+</head>
+<body>
+  <div class="test-box">
+    <h1>🧪 DraggableWindow 快速测试</h1>
+    
+    <div class="status">
+      ✅ 如果你能看到这个粉色圆形窗口，并且可以拖拽它，说明插件工作正常！
+    </div>
+    
+    <h2>测试步骤：</h2>
+    <ol>
+      <li>✅ 页面加载成功</li>
+      <li>✅ DraggableWindow.js 已正确引入</li>
+      <li>⏳ 尝试拖拽右上角的粉色窗口</li>
+      <li>⏳ 点击窗口测试跳转功能</li>
+    </ol>
+    
+    <h2>代码示例：</h2>
+    <code>
+// 1. 引入库<br>
+&lt;script src="../src/DraggableWindow.js"&gt;&lt;/script&gt;<br><br>
+// 2. 创建 HTML 元素<br>
+&lt;div id="myWindow" class="float-window" data-url="#"&gt;拖拽我&lt;/div&gt;<br><br>
+// 3. 初始化<br>
+new DraggableWindow(document.getElementById('myWindow'));
+    </code>
+    
+    <h2>测试结果：</h2>
+    <p id="result" style="color: #667eea; font-weight: bold;">等待测试...</p>
+  </div>
+
+  <!-- 可拖拽窗口 -->
+  <div id="testWindow" class="float-window" data-url="#">
+    拖拽我
+  </div>
+  
+  <script type="module">
+    import DraggableWindow from '../src/DraggableWindow.js';
+    // 测试代码
+    const resultEl = document.getElementById('result');
+    let testPassed = false;
+    
+    try {
+      // 检查 DraggableWindow 是否可用
+      if (typeof DraggableWindow === 'function') {
+        console.log('✅ DraggableWindow 类已正确加载');
+        
+        // 初始化拖拽窗口
+        const testWindow = document.getElementById('testWindow');
+        new DraggableWindow(testWindow);
+        
+        console.log('✅ 拖拽窗口初始化成功');
+        testPassed = true;
+        
+        resultEl.textContent = '✅ 测试通过！DraggableWindow 工作正常，可以自由拖拽使用。';
+        resultEl.style.color = '#28a745';
+        resultEl.style.background = '#d4edda';
+        resultEl.style.padding = '10px';
+        resultEl.style.borderRadius = '5px';
+      } else {
+        throw new Error('DraggableWindow 未定义');
+      }
+    } catch (error) {
+      console.error('❌ 测试失败:', error);
+      resultEl.textContent = '❌ 测试失败：' + error.message;
+      resultEl.style.color = '#dc3545';
+      resultEl.style.background = '#f8d7da';
+    }
+    
+    // 监听拖拽事件
+    const windowEl = document.getElementById('testWindow');
+    windowEl.addEventListener('mousedown', () => {
+      if (testPassed) {
+        console.log('🎯 用户正在拖拽窗口');
+      }
+    });
+    
+    windowEl.addEventListener('click', (e) => {
+      if (testPassed && !windowEl.classList.contains('dragging')) {
+        console.log('🎯 用户点击了窗口');
+      }
+    });
+  </script>
+</body>
+</html>

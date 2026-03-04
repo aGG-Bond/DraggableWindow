@@ -202,3 +202,4 @@ class DraggableWindow {
     }
   }
 }
+export default DraggableWindow;
