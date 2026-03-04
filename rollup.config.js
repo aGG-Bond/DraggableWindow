@@ -52,18 +52,18 @@ module.exports = [
       resolve.default(),
       commonjs.default(),
       terser.default({
-        output: {
-          comments: /^!/
+        format: {
+          comments: 'some' // 保留重要注释（如版权信息）
         },
         compress: {
-          drop_console: false,
-          pure_funcs: ['console.info']
+          drop_console: true, // 去除所有 console 语句
+          pure_funcs: []
         }
       })
     ]
   },
   
-  // ES Module 格式
+  // ES Module 格式（保留 banner）
   {
     input: 'src/DraggableWindow.js',
     output: {
@@ -75,10 +75,11 @@ module.exports = [
     plugins: [
       resolve.default(),
       commonjs.default()
+      // 不使用 terser，保留完整代码和 banner
     ]
   },
   
-  // CommonJS 格式
+  // CommonJS 格式（保留 banner）
   {
     input: 'src/DraggableWindow.js',
     output: {
@@ -99,6 +100,7 @@ module.exports = [
           'typeof module': "'object'"
         }
       })
+      // 不使用 terser，保留完整代码和 banner
     ]
   }
 ];
