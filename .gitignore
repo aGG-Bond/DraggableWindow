@@ -1,6 +1,22 @@
+# 依赖
 node_modules/
-npm-debug.log
-.DS_Store
-*.log
+package-lock.json
+
+# 环境变量
+.env
+.env.local
+
+# IDE 配置
 .vscode/
 .idea/
+*.swp
+*.swo
+*~
+
+# 系统文件
+.DS_Store
+Thumbs.db
+
+# 临时文件
+*.log
+npm-debug.log*
