@@ -10,10 +10,6 @@ DraggableWindow/
 │
 ├── 📘 README.md                 # 项目主文档
 ├── 📘 QUICKSTART.md             # 快速开始指南
-├── 📘 BUNDLING_GUIDE.md         # 打包详细指南
-├── 📘 CHECKLIST.md              # 发布前检查清单
-├── 📘 NPM_PUBLISH_GUIDE.md      # NPM 发布流程
-├── 📘 SUMMARY.md                # 完成总结
 │
 ├── 📜 LICENSE                   # MIT 许可证
 │
@@ -87,10 +83,6 @@ DraggableWindow/
 |------|----------|
 | `README.md` | 所有用户 |
 | `QUICKSTART.md` | 新手用户 |
-| `BUNDLING_GUIDE.md` | 开发者 |
-| `CHECKLIST.md` | 发布者 |
-| `NPM_PUBLISH_GUIDE.md` | 发布者 |
-| `SUMMARY.md` | 快速了解项目 |
 
 ## 🔄 工作流程
 

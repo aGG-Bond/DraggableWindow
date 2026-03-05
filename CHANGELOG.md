@@ -72,11 +72,6 @@
 
 - **详细使用文档**
   - README.md - 项目主文档
-  - QUICKSTART.md - 快速开始指南
-  - BUNDLING_GUIDE.md - 打包详细指南
-  - CHECKLIST.md - 发布前检查清单
-  - NPM_PUBLISH_GUIDE.md - npm 发布流程
-  - SUMMARY.md - 完成总结
   - PROJECT_STRUCTURE.md - 项目结构说明
 
 - **示例页面**
