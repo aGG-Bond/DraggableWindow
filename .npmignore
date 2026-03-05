@@ -1,13 +1,34 @@
-node_modules/
-.git/
+# 敏感配置文件
+.npmrc
+.env
+.env.*
+
+# Git 相关文件
+.git
 .gitignore
-*.md
-!README.md
-.DS_Store
-npm-debug.log
-*.log
+.gitattributes
+
+# IDE 和编辑器配置
 .vscode/
 .idea/
-rollup.config.js
-src/
-*.map
+*.swp
+*.swo
+*~
+
+# 构建临时文件
+*.log
+npm-debug.log*
+
+# 测试相关文件
+test/
+tests/
+__tests__/
+*.test.js
+*.spec.js
+coverage/
+
+# 其他不需要的文件
+.DS_Store
+Thumbs.db
+*.bak
+*.orig

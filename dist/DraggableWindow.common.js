@@ -1,10 +1,11 @@
 /**
- * @aggbond/draggable-window v1.0.0
+ * @aggbond/draggable-window v1.0.1
  * 一个轻量级的 JavaScript 可拖拽浮动窗口插件，支持移动端触摸和 PC 端鼠标操作，具有容器内拖拽和边界约束功能
  * 
- * @author aGG-Bond
+ * (c) 2026 aGG-Bond
  * @license MIT
  * @GitHub https://github.com/aGG-Bond/draggableWindow#readme
+ * 
  */
 'use strict';
 

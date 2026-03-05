@@ -10,15 +10,17 @@ const author = pkg.author || 'Unknown';
 const license = pkg.license || 'MIT';
 const name = pkg.name;
 const homepage = pkg.homepage;
+const currentYear = new Date().getFullYear();
 
 // 生成 banner 注释
 const banner = `/**
  * ${name} v${version}
  * ${pkg.description}
  * 
- * @author ${author}
+ * (c) ${currentYear} ${author}
  * @license ${license}
  * @GitHub ${homepage}
+ * 
  */`;
 
 module.exports = [
